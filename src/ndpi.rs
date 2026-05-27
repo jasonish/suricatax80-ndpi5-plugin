@@ -22,7 +22,7 @@ use std::ptr::{self, NonNull};
 
 use ndpi_sys as ffi;
 
-use crate::suricata;
+use suricatax80_plugin_utils as suricata;
 
 pub struct DetectionModule {
     ptr: NonNull<ffi::ndpi_detection_module_struct>,

@@ -15,4 +15,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 ndpi-sys = { path = "ndpi-sys" }
+suricatax80-plugin-utils = { version = "0.1.0" }
 

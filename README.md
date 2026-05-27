@@ -10,6 +10,8 @@ proper supported bindings for such plugins.
 
 MSRV: Rust 1.75.0.
 
+This crate depends on the `suricatax80-plugin-utils` crate.
+
 ```sh
 cargo build --release
 ```

@@ -46,7 +46,14 @@ name = "suricatax80-ndpi5-plugin"
 version = "0.1.0"
 dependencies = [
  "ndpi-sys",
+ "suricatax80-plugin-utils",
 ]
+
+[[package]]
+name = "suricatax80-plugin-utils"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8cb3d3c15a3e3efb774bc2d05d7bd1d3cb61ec8eb53170ffc5afc719dd3a5d12"
 
 [[package]]
 name = "walkdir"

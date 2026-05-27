@@ -18,7 +18,6 @@
 #![allow(non_snake_case)]
 
 mod ndpi;
-mod suricata;
 
 use core::ffi::c_void;
 use std::ffi::CStr;
@@ -27,6 +26,7 @@ use std::os::raw::{c_char, c_int};
 use std::ptr;
 
 use ndpi::{DetectionModule, Flow};
+use suricatax80_plugin_utils as suricata;
 
 static mut THREAD_STORAGE_ID: suricata::ThreadStorageId = suricata::ThreadStorageId { id: -1 };
 static mut FLOW_STORAGE_ID: suricata::FlowStorageId = suricata::FlowStorageId { id: -1 };
@@ -54,15 +54,29 @@ struct DetectNdpiRiskData {
 }
 
 fn log_notice(message: String) {
-    suricata::log_message(suricata::SC_LOG_NOTICE, file!(), line!(), "ndpi", message);
+    suricata::log_message(
+        suricata::SC_LOG_NOTICE,
+        "ndpi-plugin",
+        file!(),
+        line!(),
+        "ndpi",
+        message,
+    );
 }
 
 fn log_error(message: String) {
-    suricata::log_message(suricata::SC_LOG_ERROR, file!(), line!(), "ndpi", message);
+    suricata::log_message(
+        suricata::SC_LOG_ERROR,
+        "ndpi-plugin",
+        file!(),
+        line!(),
+        "ndpi",
+        message,
+    );
 }
 
 fn fatal(message: String) -> ! {
-    suricata::fatal_error(message)
+    suricata::fatal_error("ndpi-plugin", message)
 }
 
 unsafe fn thread_context<'a>(tv: *const suricata::ThreadVars) -> Option<&'a mut ThreadContext> {
