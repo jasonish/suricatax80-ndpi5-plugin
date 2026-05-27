@@ -1,0 +1,53 @@
+name: Build plugin
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Linux x86_64 plugin
+    runs-on: ubuntu-22.04
+
+    env:
+      RUST_TOOLCHAIN: 1.75.0
+      RUST_TARGET: x86_64-unknown-linux-gnu
+      ARTIFACT_FILE: suricatax80-ndpi5-plugin-linux-x86_64.so
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential
+
+      - name: Install Rust toolchain
+        run: |
+          rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --target "$RUST_TARGET"
+          rustup default "$RUST_TOOLCHAIN"
+
+      - name: Verify build platform
+        run: |
+          test "$(uname -s)" = "Linux"
+          test "$(uname -m)" = "x86_64"
+
+      - name: Build plugin
+        run: cargo build --release --locked --target "$RUST_TARGET"
+
+      - name: Stage artifact
+        run: |
+          mkdir -p dist
+          cp "target/$RUST_TARGET/release/libndpi.so" "dist/$ARTIFACT_FILE"
+          ls -l dist/
+
+      - name: Upload plugin artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: suricatax80-ndpi5-plugin-linux-x86_64
+          path: dist/${{ env.ARTIFACT_FILE }}
+          if-no-files-found: error
