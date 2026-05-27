@@ -1,0 +1,76 @@
+/*
+ *
+ * This file is generated automatically and part of nDPI
+ *
+ * nDPI is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * nDPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with nDPI.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* ****************************************************** */
+
+
+static ndpi_network ndpi_protocol_nvidia_protocol_list[] = {
+ { 0x081A9200 /* 8.26.146.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x081CE500 /* 8.28.229.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x08247000 /* 8.36.112.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x08247800 /* 8.36.120.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x082C3300 /* 8.44.51.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x082C3600 /* 8.44.54.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x18330000 /* 24.51.0.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x18330900 /* 24.51.9.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x18330A00 /* 24.51.10.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x18330C00 /* 24.51.12.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x18330F00 /* 24.51.15.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x18331000 /* 24.51.16.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x18331500 /* 24.51.21.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x18331900 /* 24.51.25.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x18331A00 /* 24.51.26.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x18331C00 /* 24.51.28.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x18331E00 /* 24.51.30.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x25BA6F00 /* 37.186.111.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x42168000 /* 66.22.128.0/20 */, 20, NDPI_PROTOCOL_NVIDIA },
+ { 0x42169000 /* 66.22.144.0/21 */, 21, NDPI_PROTOCOL_NVIDIA },
+ { 0x48194000 /* 72.25.64.0/21 */, 21, NDPI_PROTOCOL_NVIDIA },
+ { 0x48196000 /* 72.25.96.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x48196400 /* 72.25.100.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x48197800 /* 72.25.120.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x4D6FF800 /* 77.111.248.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x4D6FFA00 /* 77.111.250.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x5054A200 /* 80.84.162.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x5054A600 /* 80.84.166.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x5054AA00 /* 80.84.170.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x5054AC00 /* 80.84.172.0/22 */, 22, NDPI_PROTOCOL_NVIDIA },
+ { 0x50FA6000 /* 80.250.96.0/22 */, 22, NDPI_PROTOCOL_NVIDIA },
+ { 0x50FA6400 /* 80.250.100.0/23 */, 23, NDPI_PROTOCOL_NVIDIA },
+ { 0x50FA6600 /* 80.250.102.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x551D0E00 /* 85.29.14.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x551D1200 /* 85.29.18.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x551D2100 /* 85.29.33.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x6706D300 /* 103.6.211.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x76806600 /* 118.128.102.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0x79C82D00 /* 121.200.45.0/24 */, 24, NDPI_PROTOCOL_NVIDIA },
+ { 0xB9884400 /* 185.136.68.0/22 */, 22, NDPI_PROTOCOL_NVIDIA },
+ { 0xD8E47000 /* 216.228.112.0/20 */, 20, NDPI_PROTOCOL_NVIDIA },
+ /* End */
+ { 0x0, 0, 0 }
+};
+
+static ndpi_network6 ndpi_protocol_nvidia_protocol_list_6[] = {
+ { "2604:a140:1500::", 47, NDPI_PROTOCOL_NVIDIA },
+ { "2604:a140:2000::", 36, NDPI_PROTOCOL_NVIDIA },
+ { "2604:a140:6000::", 36, NDPI_PROTOCOL_NVIDIA },
+ { "2604:a140:f000::", 48, NDPI_PROTOCOL_NVIDIA },
+ /* End */
+ { NULL, 0, 0 }
+};

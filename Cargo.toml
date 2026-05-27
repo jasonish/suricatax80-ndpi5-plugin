@@ -1,0 +1,20 @@
+[package]
+name = "suricatax80-ndpi5-plugin"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75.0"
+license = "GPL-2.0-only"
+build = "build.rs"
+
+[workspace]
+members = [".", "ndpi-sys"]
+
+[lib]
+name = "ndpi"
+crate-type = ["cdylib"]
+
+[dependencies]
+ndpi-sys = { path = "ndpi-sys" }
+
+[build-dependencies]
+cc = "1.2"

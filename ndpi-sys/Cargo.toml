@@ -1,0 +1,14 @@
+[package]
+name = "ndpi-sys"
+version = "5.0.0"
+edition = "2021"
+rust-version = "1.75.0"
+description = "Rust -sys bindings for vendored nDPI 5.0 source"
+license = "LGPL-3.0-only"
+readme = "README.md"
+links = "ndpi"
+build = "build.rs"
+
+[build-dependencies]
+cc = "1.2"
+walkdir = "2.5"
