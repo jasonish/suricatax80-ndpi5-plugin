@@ -1,15 +1,16 @@
-name: Build plugin
+name: Release
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
+    tags:
+      - "**"
+
+permissions:
+  contents: write
 
 jobs:
-  build:
-    name: Build Linux x86_64 plugin
+  release:
+    name: Release Linux x86_64 plugin
     runs-on: ubuntu-22.04
 
     env:
@@ -25,7 +26,7 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends build-essential
+          sudo apt-get install -y --no-install-recommends build-essential zip
 
       - name: Install Rust toolchain
         run: |
@@ -40,15 +41,19 @@ jobs:
       - name: Build plugin
         run: cargo build --release --locked --target "$RUST_TARGET"
 
-      - name: Stage artifact
+      - name: Stage release files
         run: |
           mkdir -p dist
           cp "target/$RUST_TARGET/release/libndpi.so" "dist/$ARTIFACT_FILE"
-          ls -l dist/
+          cd dist
+          sha256sum "$ARTIFACT_FILE" > SHA256SUMS
+          zip -9 "$ARTIFACT_NAME.zip" "$ARTIFACT_FILE" SHA256SUMS
+          ls -l
 
-      - name: Upload plugin artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
         with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: dist/${{ env.ARTIFACT_FILE }}
-          if-no-files-found: error
+          name: ${{ github.ref_name }}
+          files: |
+            dist/${{ env.ARTIFACT_NAME }}.zip
+            dist/SHA256SUMS
