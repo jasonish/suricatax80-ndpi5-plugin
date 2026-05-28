@@ -3,7 +3,10 @@ name = "suricatax80-ndpi5-plugin"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.75.0"
+description = "Suricata 8.0.x nDPI 5 plugin"
 license = "GPL-2.0-only"
+readme = "README.md"
+publish = false
 build = "build.rs"
 
 [workspace]
@@ -14,6 +17,6 @@ name = "ndpi"
 crate-type = ["cdylib"]
 
 [dependencies]
-ndpi-sys = { path = "ndpi-sys" }
+ndpi-sys = { version = "5.0.0", path = "ndpi-sys" }
 suricatax80-plugin-utils = { version = "0.1.0" }
 
