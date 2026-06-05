@@ -190,10 +190,59 @@ impl Flow {
         let mut buffer_len = 0;
         let buffer = ffi::ndpi_serializer_get_buffer(&mut serializer, &mut buffer_len);
         if !buffer.is_null() && buffer_len > 0 {
-            suricata::scjb_set_formatted(jb, buffer);
+            let buffer = std::slice::from_raw_parts(buffer.cast::<u8>(), buffer_len as usize);
+            if let Some(formatted) = validate_inner_json(buffer) {
+                suricata::scjb_set_formatted(jb, formatted.as_ptr());
+            }
         }
 
         ffi::ndpi_term_serializer(&mut serializer);
+    }
+}
+
+fn validate_inner_json(fragment: &[u8]) -> Option<CString> {
+    let mut wrapped = Vec::with_capacity(fragment.len() + 2);
+    wrapped.push(b'{');
+    wrapped.extend_from_slice(fragment);
+    wrapped.push(b'}');
+
+    let value: serde_json::Value = serde_json::from_slice(&wrapped).ok()?;
+    if !value.is_object() {
+        return None;
+    }
+
+    let rendered = serde_json::to_string(&value).ok()?;
+    let inner = rendered.strip_prefix('{')?.strip_suffix('}')?;
+    if inner.is_empty() {
+        return None;
+    }
+
+    CString::new(inner).ok()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::validate_inner_json;
+
+    #[test]
+    fn validate_inner_json_reserializes_valid_fragment() {
+        let formatted =
+            validate_inner_json(br#""ndpi":{"proto":"HTTP","hostname":"example.com"}"#).unwrap();
+
+        let mut wrapped = Vec::new();
+        wrapped.push(b'{');
+        wrapped.extend_from_slice(formatted.to_bytes());
+        wrapped.push(b'}');
+
+        let value: serde_json::Value = serde_json::from_slice(&wrapped).unwrap();
+        assert_eq!(value["ndpi"]["proto"], "HTTP");
+        assert_eq!(value["ndpi"]["hostname"], "example.com");
+    }
+
+    #[test]
+    fn validate_inner_json_rejects_invalid_fragment() {
+        assert!(validate_inner_json(br#""ndpi":{"hostname":"unterminated}"#).is_none());
+        assert!(validate_inner_json(b"").is_none());
     }
 }
 
