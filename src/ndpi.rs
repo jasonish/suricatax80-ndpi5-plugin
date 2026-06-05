@@ -206,10 +206,11 @@ fn validate_inner_json(fragment: &[u8]) -> Option<CString> {
     wrapped.extend_from_slice(fragment);
     wrapped.push(b'}');
 
-    let value: serde_json::Value = serde_json::from_slice(&wrapped).ok()?;
+    let mut value: serde_json::Value = serde_json::from_slice(&wrapped).ok()?;
     if !value.is_object() {
         return None;
     }
+    sanitize_json_keys(&mut value);
 
     let rendered = serde_json::to_string(&value).ok()?;
     let inner = rendered.strip_prefix('{')?.strip_suffix('}')?;
@@ -218,6 +219,24 @@ fn validate_inner_json(fragment: &[u8]) -> Option<CString> {
     }
 
     CString::new(inner).ok()
+}
+
+fn sanitize_json_keys(value: &mut serde_json::Value) {
+    match value {
+        serde_json::Value::Object(map) => {
+            let old_map = mem::take(map);
+            for (key, mut value) in old_map {
+                sanitize_json_keys(&mut value);
+                map.insert(key.replace('.', "_"), value);
+            }
+        }
+        serde_json::Value::Array(values) => {
+            for value in values {
+                sanitize_json_keys(value);
+            }
+        }
+        _ => {}
+    }
 }
 
 #[cfg(test)]
@@ -237,6 +256,27 @@ mod tests {
         let value: serde_json::Value = serde_json::from_slice(&wrapped).unwrap();
         assert_eq!(value["ndpi"]["proto"], "HTTP");
         assert_eq!(value["ndpi"]["hostname"], "example.com");
+    }
+
+    #[test]
+    fn validate_inner_json_replaces_dots_in_field_names() {
+        let formatted = validate_inner_json(
+            br#""ndpi":{"ONE.TWO.THREE":"value","nested.object":{"array.value":[{"leaf.name":1}]}}"#,
+        )
+        .unwrap();
+
+        let mut wrapped = Vec::new();
+        wrapped.push(b'{');
+        wrapped.extend_from_slice(formatted.to_bytes());
+        wrapped.push(b'}');
+
+        let value: serde_json::Value = serde_json::from_slice(&wrapped).unwrap();
+        assert_eq!(value["ndpi"]["ONE_TWO_THREE"], "value");
+        assert_eq!(
+            value["ndpi"]["nested_object"]["array_value"][0]["leaf_name"],
+            1
+        );
+        assert!(value["ndpi"].get("ONE.TWO.THREE").is_none());
     }
 
     #[test]
