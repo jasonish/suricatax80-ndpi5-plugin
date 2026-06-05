@@ -6,6 +6,12 @@ as a Suricata 8.0.x plugin.
 Note that this is an experimental proof of concept. Suricata 9.0 will have
 proper supported bindings for such plugins.
 
+## Downloads
+
+A pre-built Linux x86_64 plugin (`ndpi.so`) can be downloaded from the
+[releases](https://github.com/jasonish/suricatax80-ndpi5-plugin/releases)
+page.
+
 ## Building
 
 MSRV: Rust 1.75.0.
